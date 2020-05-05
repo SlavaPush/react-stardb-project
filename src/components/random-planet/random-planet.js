@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import SwapiService from "../../services/swapi-service";
+
 import Spinner from "../spinner/spinner";
 import ErrorIndicator from "../error-indicator";
 
@@ -15,9 +16,10 @@ export default class RandomPlanet extends Component {
         loading: true
     };
 
-    constructor() {
-        super();
+    componentDidMount() {
         this.updatePlanet();
+        this.interval = setInterval(this.updatePlanet, 3000);
+        // clearInterval(this.interval);
     }
 
     onPlanetLoaded = (planet) => {
@@ -28,15 +30,15 @@ export default class RandomPlanet extends Component {
         })
     };
 
-    onError = (err) => {
+    onError = () => {
         this.setState({
             error: true,
             loading: false
         })
     };
 
-    updatePlanet() {
-        const id = 13;
+    updatePlanet = () => {
+        const id = Math.floor(Math.random()*22 + 3);
         this.swapiService
             .getPlanet(id)
             .then(this.onPlanetLoaded)
@@ -70,7 +72,7 @@ const PlanetView = ({planet}) => {
     return (
         < React.Fragment>
             <img className="planet-image"
-                 src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
+                 src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} alt="img"
             />
             <div>
                 <h4>{name}</h4>
