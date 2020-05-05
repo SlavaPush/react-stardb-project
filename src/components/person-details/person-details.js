@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import Spinner from "../spinner";
 
 import './person-details.css';
 import SwapiService from "../../services/swapi-service";
+import ErrorIndicator from "../error-indicator";
 
 export default class PersonDetails extends Component {
 
@@ -11,7 +12,8 @@ export default class PersonDetails extends Component {
 
     state = {
         person: null,
-        loading: true
+        loading: false,
+        error: false
     };
 
     componentDidMount() {
@@ -19,7 +21,7 @@ export default class PersonDetails extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.personId !== prevProps.personId){
+        if (this.props.personId !== prevProps.personId) {
             this.setState({
                 loading: this.props.personLoading
             });
@@ -28,9 +30,16 @@ export default class PersonDetails extends Component {
         }
     }
 
-    updatePerson()  {
-        const { personId } = this.props;
-        if(!personId) {
+    onError = () => {
+        this.setState({
+            error: true,
+            loading: false
+        })
+    };
+
+    updatePerson() {
+        const {personId} = this.props;
+        if (!personId) {
             return;
         }
         this.swapiService
@@ -38,54 +47,76 @@ export default class PersonDetails extends Component {
             .then((person) => {
                 this.setState({
                     person,
-                    loading: true
+                    loading: false
                 });
-            });
+            })
+            .catch(this.onError);
 
     }
 
     render() {
-
-        if(!this.state.loading) {
+        if (!this.state.person) {
             return (
-                <div className="person-details card">
-                    <Spinner />
-                </div>
+                <SelectView />
             )
         }
+        const {person, loading, error} = this.state;
 
-        if(!this.state.person) {
-            return (
-                <div className="person-details card">
-                    <span>Select a person from a list</span>
-                </div>
-            )
-        }
+        const hasData = !(loading || error);
 
-        const { id, name, gender, birthYear, eyeColor } = this.state.person;
+
+        const spinner = loading ? <Spinner /> : null;
+        const erroMessage = error ? <ErrorIndicator /> : null;
+        const content = hasData ? <PersonView person={person}/> : null;
+
         return (
             <div className="person-details card">
-                <img className="person-image"
-                     src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg `}alt="img" />
-
-                <div className="card-body">
-                    <h4>{name}</h4>
-                    <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                            <span className="term">Gender:</span>
-                            <span>{gender}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Birth Year:</span>
-                            <span>{birthYear}</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Eye Color:</span>
-                            <span>{eyeColor}</span>
-                        </li>
-                    </ul>
-                </div>
+                {spinner}
+                {content}
+                {erroMessage}
             </div>
         )
     }
+}
+
+const PersonView = ({person}) => {
+    const {id, name, gender, birthYear, eyeColor} = person;
+
+    return (
+        <React.Fragment>
+            <img className="person-image"
+                 src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg `} alt="img"/>
+
+            <div className="card-body">
+                <h4>{name}</h4>
+                <ul className="list-group list-group-flush">
+                    <li className="list-group-item">
+                        <span className="term">Gender:</span>
+                        <span>{gender}</span>
+                    </li>
+                    <li className="list-group-item">
+                        <span className="term">Birth Year:</span>
+                        <span>{birthYear}</span>
+                    </li>
+                    <li className="list-group-item">
+                        <span className="term">Eye Color:</span>
+                        <span>{eyeColor}</span>
+                    </li>
+                </ul>
+            </div>
+        </React.Fragment>
+    )
+
+}
+
+const SelectView = () => {
+
+    return (
+        <React.Fragment>
+            <div className="person-details card">
+                <span>Select a person from a list</span>
+            </div>
+        </React.Fragment>
+
+    )
 }

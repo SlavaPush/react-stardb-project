@@ -18,7 +18,6 @@ export default class App extends Component {
     onPersonSelected = (id) => {
         this.setState({
             selectedPerson: id,
-            personLoading: false
         });
     };
 
@@ -33,7 +32,7 @@ export default class App extends Component {
                         <ItemList onItemSelected={this.onPersonSelected}/>
                     </div>
                     <div className="col-md-6">
-                        <PersonDetails personId={this.state.selectedPerson} personLoading={ this.state.personLoading }/>
+                        <PersonDetails personId={this.state.selectedPerson} personLoading={ true }/>
                     </div>
                 </div>
             </div>
