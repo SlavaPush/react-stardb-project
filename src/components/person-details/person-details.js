@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 
 import Spinner from "../spinner";
+import ErrorIndicator from "../error-indicator";
+
+import SwapiService from "../../services/swapi-service";
 
 import './person-details.css';
-import SwapiService from "../../services/swapi-service";
-import ErrorIndicator from "../error-indicator";
 
 export default class PersonDetails extends Component {
 
@@ -56,14 +57,11 @@ export default class PersonDetails extends Component {
 
     render() {
         if (!this.state.person) {
-            return (
-                <SelectView />
-            )
+             return <SelectView />
         }
         const {person, loading, error} = this.state;
 
         const hasData = !(loading || error);
-
 
         const spinner = loading ? <Spinner /> : null;
         const erroMessage = error ? <ErrorIndicator /> : null;
@@ -101,6 +99,8 @@ const PersonView = ({person}) => {
                     <li className="list-group-item">
                         <span className="term">Eye Color:</span>
                         <span>{eyeColor}</span>
+                    </li>
+                    <li className="list-group-item">
                     </li>
                 </ul>
             </div>
