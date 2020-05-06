@@ -6,6 +6,8 @@ import PeoplePage from "../people-page";
 import ErrorIndicator from "../error-indicator";
 
 import './app.css';
+import ItemList from "../item-list";
+import PersonDetails from "../person-details";
 
 export default class App extends Component {
 
@@ -47,6 +49,14 @@ export default class App extends Component {
                     Toggle Random Planet
                 </button>
                 <PeoplePage />
+                <div className="row mb2">
+                    <div className="col-md-6">
+                        <ItemList onItemSelected={this.onPersonSelected}/>
+                    </div>
+                    <div className="col-md-6">
+                        <PersonDetails personId={this.state.selectedPerson} personLoading={ true }/>
+                    </div>
+                </div>
             </div>
         );
     }

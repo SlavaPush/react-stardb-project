@@ -28,6 +28,18 @@ export default class ItemList extends Component {
             .catch(this.onError);
     }
 
+    renderItems(arr) {
+        return arr.map(({id, name}) => {
+            return (
+                <li className="list-group-item"
+                    key={id}
+                    onClick={() => this.props.onItemSelected(id)}>
+                    {name}
+                </li>
+            )
+        });
+    }
+
     onError = (err) => {
         this.setState({
             error: true,
@@ -39,36 +51,18 @@ export default class ItemList extends Component {
 
         const { peopleList, error } = this.state;
 
-        const hasData = !(peopleList || error);
+        if (!peopleList) {
+            return <Spinner />;
+        }
 
-        const spinner = hasData ? <Spinner /> : null;
-        const erroMessage = error ? <ErrorIndicator/> : null;
-        const content = peopleList ? <PeopleView peopleList={ peopleList } onItemSelected={this.props.onItemSelected} /> : null;
+        const items = this.renderItems(peopleList);
+
+        const content = error ? <ErrorIndicator/> : items;
 
         return (
             <ul className="item-list list-group">
-                {erroMessage}
                 {content}
-                {spinner}
             </ul>
         );
     }
 }
-
-const PeopleView = ({onItemSelected, peopleList}) => {
-
-    const items = peopleList.map((person) => {
-        return (
-            <li className="list-group-item"
-                key={person.id}
-                onClick={() => onItemSelected(person.id)}>
-                {person.name}
-            </li>
-        )
-    });
-    return (
-        < React.Fragment>
-            {items}
-        </ React.Fragment>
-    );
-};
