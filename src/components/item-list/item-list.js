@@ -1,68 +1,34 @@
-import React, { Component } from 'react';
-
-import ErrorIndicator from "../error-indicator";
-import Spinner from "../spinner";
-
-import SwapiService from "../../services/swapi-service";
+import React from 'react';
 
 import './item-list.css';
 
+const ItemList = (props) => {
 
-export default class ItemList extends Component {
+    const {data, children: renderLabel, onItemSelected} = props;
 
-    swapiService = new SwapiService();
-
-    state = {
-        peopleList: null,
-        error: false
-    }
-
-    componentDidMount() {
-        this.swapiService
-            .getAllPeople()
-            .then((peopleList) => {
-                this.setState({
-                    peopleList
-                });
-            })
-            .catch(this.onError);
-    }
-
-    renderItems(arr) {
-        return arr.map(({id, name}) => {
-            return (
-                <li className="list-group-item"
-                    key={id}
-                    onClick={() => this.props.onItemSelected(id)}>
-                    {name}
-                </li>
-            )
-        });
-    }
-
-    onError = (err) => {
-        this.setState({
-            error: true,
-        })
-    };
-
-
-    render() {
-
-        const { peopleList, error } = this.state;
-
-        if (!peopleList) {
-            return <Spinner />;
-        }
-
-        const items = this.renderItems(peopleList);
-
-        const content = error ? <ErrorIndicator/> : items;
-
+    const items = data.map((item) => {
+        const {id} = item;
+        const label = renderLabel(item);
         return (
-            <ul className="item-list list-group">
-                {content}
-            </ul>
+            <li className="list-group-item"
+                key={id}
+                onClick={() => onItemSelected(id)}>
+                {label}
+            </li>
         );
-    }
-}
+    });
+
+    return (
+        <ul className="item-list list-group">
+            {items}
+        </ul>
+    );
+};
+
+ItemList.defaultProps = {
+    onItemSelected: () => {}
+};
+
+export default ItemList;
+
+
