@@ -20,14 +20,17 @@ const ItemList = (props) => {
     });
 
     return (
-        <ul className="item-list list-group">
-            {items}
-        </ul>
+        <>
+            <ul className="item-list list-group">
+                {items}
+            </ul>
+        </>
     );
 };
 
 ItemList.defaultProps = {
-    onItemSelected: () => {}
+    onItemSelected: () => {
+    }
 };
 
 ItemList.propTypes = {
