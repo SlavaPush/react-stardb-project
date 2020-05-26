@@ -6,10 +6,8 @@ const StarshipsPages = ({history}) => {
 
         return (
             <StarshipList
-                onItemSelected={(id) => {
-                    history.push(id);
-                }} />
+                onItemSelected={(id) => { history.push(id) }} />
         );
 }
 
-export default withRouter(StarshipsPages)
+export default withRouter(StarshipsPages);
