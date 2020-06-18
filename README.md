@@ -9,3 +9,8 @@
 - Node.js
 - Express
 - Bootstrap
+
+## Запустить локально
+
+- cd client && npm install & npm start
+- [http://localhost:3000](http://localhost:3000/)
