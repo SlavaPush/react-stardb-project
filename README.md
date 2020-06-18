@@ -5,7 +5,7 @@
 
 ## Используемый стек технологий
 
-- React
+- React && React Router
 - Node.js
 - Express
 - Bootstrap

@@ -43,25 +43,25 @@ export default class App extends Component {
 
                             <Switch>
                                 <Route path="/"
-                                       render={() => <h2>Welcome to StarDB</h2>}
-                                       exact/>
+                                      render={() => <h2>Welcome to StarDB</h2>}
+                                      exact/>
                                 {/*<Route path="/people" exact render={() => <h2>People</h2>}/>*/}
                                 <Route path="/people/:id?" component={PeoplePage}/>
                                 <Route path="/planets" component={PlanetPage}/>
                                 <Route path="/starships" exact component={StarshipsPage}/>
                                 <Route path="/starships/:id"
-                                       render={({match}) => {
-                                           const {id} = match.params;
-                                           return <StarshipDetails itemId={id}/>
-                                       }}
+                                      render={({match}) => {
+                                          const {id} = match.params;
+                                          return <StarshipDetails itemId={id}/>
+                                      }}
                                 />
                                 <Route
                                     path="/login"
                                     render={() => (
                                         <LoginPage isLoggedIn={isLoggedIn}
-                                                   onLogin={this.onLogin}/>
+                                                  onLogin={this.onLogin}/>
                                     )}/>
-                                <Route
+                                <Route  
                                     path="/secret"
                                     render={() => (
                                         <SecretPage isLoggedIn={isLoggedIn}/>
