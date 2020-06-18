@@ -10,7 +10,7 @@ import './random-planet.css';
 export default class RandomPlanet extends Component {
 
     static defaultProps = {
-        updateInterval: 10000
+        updateInterval: 5000
     };
 
     static propTypes = {
