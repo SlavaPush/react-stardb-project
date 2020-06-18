@@ -55,7 +55,7 @@ export default class App extends Component {
                                           return <StarshipDetails itemId={id}/>
                                       }}
                                 />
-                                <Route
+                                {/* <Route
                                     path="/login"
                                     render={() => (
                                         <LoginPage isLoggedIn={isLoggedIn}
@@ -65,7 +65,7 @@ export default class App extends Component {
                                     path="/secret"
                                     render={() => (
                                         <SecretPage isLoggedIn={isLoggedIn}/>
-                                    )}/>
+                                    )}/> */}
                                 <Route render={() => <h2>Page not found</h2>} />
                             </Switch>
                         </div>
